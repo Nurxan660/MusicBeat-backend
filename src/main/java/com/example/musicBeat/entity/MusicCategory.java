@@ -1,29 +1,30 @@
 package com.example.musicBeat.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.example.musicBeat.compositeKey.MusicCategoryKey;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class MusicCategory {
-    @Id@GeneratedValue(strategy = GenerationType.AUTO)
-    private Long musicCategoryId;
-    private String musicCategoryName;
+    @EmbeddedId
+    private MusicCategoryKey musicCategoryKey;
 
-    public Long getMusicCategoryId() {
-        return musicCategoryId;
-    }
+    @ManyToOne
+    @JoinColumn(name="music_id")
+    @MapsId("musicId")
+    private Music music;
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    @MapsId("categoryId")
+    Category category;
 
-    public void setMusicCategoryId(Long musicCategoryId) {
-        this.musicCategoryId = musicCategoryId;
-    }
 
-    public String getMusicCategoryName() {
-        return musicCategoryName;
-    }
-
-    public void setMusicCategoryName(String musicCategoryName) {
-        this.musicCategoryName = musicCategoryName;
-    }
 }
