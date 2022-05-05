@@ -24,7 +24,7 @@ public class MusicCategory {
     @ManyToOne
     @JoinColumn(name="category_id")
     @MapsId("categoryId")
-    Category category;
+    private Category category;
 
 
 }

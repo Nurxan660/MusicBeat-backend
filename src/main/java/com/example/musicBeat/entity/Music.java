@@ -22,9 +22,7 @@ public class Music {
     private String author;
     private String duration;
     private String album;
-    @ManyToOne
-    @JoinColumn(name = "music_category_id")
-    private List<MusicCategory> musicCategoryList;
+
 
 
 }
