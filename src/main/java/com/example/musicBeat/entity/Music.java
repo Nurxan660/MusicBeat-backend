@@ -1,9 +1,7 @@
 package com.example.musicBeat.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Music {
@@ -15,6 +13,9 @@ public class Music {
     private String author;
     private String duration;
     private String album;
+    @ManyToOne
+    @JoinColumn(name = "music_category_id")
+    private List<MusicCategory> musicCategoryList;
 
     public Long getMusicId() {
         return musicId;
