@@ -22,6 +22,7 @@ public class Music {
     private String author;
     private String duration;
     private String album;
+    private String imageUrl;
 
 
 
