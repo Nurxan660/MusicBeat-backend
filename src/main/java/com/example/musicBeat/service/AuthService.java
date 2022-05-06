@@ -96,7 +96,7 @@ public class AuthService {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
         RefreshToken refreshToken=refreshTokenService.createRefreshToken(userDetails.getEmail());
-        return new LoginResponse(token,refreshToken.getToken(),userDetails.getId(),userDetails.getEmail(),roles);
+        return new LoginResponse(token,refreshToken.getToken(),userDetails.getUsername(),userDetails.getId(),userDetails.getEmail(),roles);
     }
 
     @Transactional
