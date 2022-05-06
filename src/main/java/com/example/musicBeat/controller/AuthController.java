@@ -28,8 +28,8 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity signUp( @RequestBody RegistrationRequest req){
 
-                authService.registration(req);
-                return ResponseEntity.ok(new ResponseMessage("User registered successfully"));
+                RegistrationResponse registrationResponse=authService.registration(req);
+                return ResponseEntity.ok(registrationResponse);
 
     }
 

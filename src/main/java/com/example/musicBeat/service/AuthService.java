@@ -5,6 +5,7 @@ package com.example.musicBeat.service;
 import com.example.musicBeat.dto.LoginRequest;
 import com.example.musicBeat.dto.LoginResponse;
 import com.example.musicBeat.dto.RegistrationRequest;
+import com.example.musicBeat.dto.RegistrationResponse;
 import com.example.musicBeat.entity.*;
 import com.example.musicBeat.exception.EmailAlreadyExistException;
 import com.example.musicBeat.exception.EmailAndNicknameAlreadyExistException;
@@ -51,7 +52,7 @@ public class AuthService {
     @Autowired
     RefreshTokenRepository refreshTokenRepository;
 
-    public User registration(RegistrationRequest req) throws EmailAlreadyExistException, NicknameAlreadyExistException, EmailAndNicknameAlreadyExistException {
+    public RegistrationResponse registration(RegistrationRequest req) throws EmailAlreadyExistException, NicknameAlreadyExistException, EmailAndNicknameAlreadyExistException {
         if(userRepository.existsByEmail(req.getEmail())&&!userRepository.existsByNickname(req.getNickname())){
             throw new EmailAlreadyExistException("email already exist");
         }
@@ -81,7 +82,9 @@ public class AuthService {
         user.setRoles(roles);
         user.setDate(new Date());
         userRepository.save(user);
-        return user;
+        RegistrationResponse res=new RegistrationResponse("User sucessfully registered", user.getEmail(),user.getNickname());
+
+        return res;
 
 
     }
