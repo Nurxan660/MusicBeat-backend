@@ -18,6 +18,7 @@ public class Music {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long musicId;
     private String url;
+    private String downloadUrl;
     private String name;
     private String author;
     private String duration;
