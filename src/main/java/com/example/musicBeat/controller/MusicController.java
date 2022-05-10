@@ -23,4 +23,10 @@ public class MusicController {
     public ResponseEntity getMusicByCategories(@RequestParam Long categoryId){
         return ResponseEntity.ok(musicService.getMusicByCategories(categoryId));
     }
+
+    @GetMapping("/get/all")
+    public ResponseEntity getAllMusic(){
+        return ResponseEntity.ok(musicService.getAllMusics());
+    }
+
 }
