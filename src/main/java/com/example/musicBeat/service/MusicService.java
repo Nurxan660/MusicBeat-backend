@@ -2,9 +2,11 @@ package com.example.musicBeat.service;
 
 
 import com.example.musicBeat.entity.Category;
+import com.example.musicBeat.entity.MainCategory;
 import com.example.musicBeat.entity.Music;
 import com.example.musicBeat.entity.MusicCategory;
 import com.example.musicBeat.repository.CategoryRepository;
+import com.example.musicBeat.repository.MainCategoryRepository;
 import com.example.musicBeat.repository.MusicCategoryRepository;
 import com.example.musicBeat.repository.MusicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class MusicService {
     private MusicCategoryRepository musicCategoryRepository;
     @Autowired
     private MusicRepository musicRepository;
+    @Autowired
+    private MainCategoryRepository mainCategoryRepository;
 
     public List<Category> getCategories(){
         return categoryRepository.findAll();
@@ -31,6 +35,10 @@ public class MusicService {
 
     public List<Music> getAllMusics(){
         return  musicRepository.findAllByOrderByMusicId();
+    }
+
+    public List<MainCategory> getAllMainCategories(){
+        return mainCategoryRepository.findAllByOrderByMainCategoryId();
     }
 
 

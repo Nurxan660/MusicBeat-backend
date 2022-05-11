@@ -1,10 +1,13 @@
 package com.example.musicBeat.controller;
 
 
+import com.example.musicBeat.entity.MainCategory;
 import com.example.musicBeat.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/music")
@@ -27,6 +30,11 @@ public class MusicController {
     @GetMapping("/get/all")
     public ResponseEntity getAllMusic(){
         return ResponseEntity.ok(musicService.getAllMusics());
+    }
+    @GetMapping("/get/mainCategories")
+    public ResponseEntity getAllMainCategories(){
+        List<MainCategory> mainCategoryList=musicService.getAllMainCategories();
+        return ResponseEntity.ok(mainCategoryList);
     }
 
 }
