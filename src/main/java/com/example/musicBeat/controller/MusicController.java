@@ -26,6 +26,10 @@ public class MusicController {
     public ResponseEntity getMusicByCategories(@RequestParam Long categoryId){
         return ResponseEntity.ok(musicService.getMusicByCategories(categoryId));
     }
+    @GetMapping("/get/allByPattern")
+    public ResponseEntity getAllMusicByPattern(@RequestParam String pattern,@RequestParam int page,@RequestParam int size){
+        return ResponseEntity.ok(musicService.getAllMusicsByPattern(pattern,page, size));
+    }
 
     @GetMapping("/get/all")
     public ResponseEntity getAllMusic(){
