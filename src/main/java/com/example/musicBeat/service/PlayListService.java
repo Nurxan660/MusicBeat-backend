@@ -62,5 +62,10 @@ public class PlayListService {
         return musicPlaylistRepository.findByPlayListUniqueAddress(uniqueAddress,pageable);
     }
 
+    public Page getUserPlaylist(Long id,int page,int size){
+        Pageable pageable=PageRequest.of(page, size);
+        return playlistRepository.findByUserId(id,pageable);
+    }
+
 
 }

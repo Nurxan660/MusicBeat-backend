@@ -46,6 +46,13 @@ public class PlayListController {
         return ResponseEntity.ok(res);
     }
 
+    @GetMapping("/get/user")
+    public ResponseEntity getUserPlaylist(@RequestParam int page,@RequestParam int size,Authentication authentication){
+        UserDetailsImpl userDetails= (UserDetailsImpl) authentication.getPrincipal();
+        Page res=playListService.getUserPlaylist(userDetails.getId(),page,size);
+        return ResponseEntity.ok(res);
+    }
+
 
 
 
