@@ -6,6 +6,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
+@NoArgsConstructor
 public class TokenRefreshResponse {
     @NonNull
     private String accessToken;

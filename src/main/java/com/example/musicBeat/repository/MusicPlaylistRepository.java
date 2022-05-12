@@ -11,4 +11,5 @@ import java.util.List;
 public interface MusicPlaylistRepository extends JpaRepository<MusicPlaylist, MusicPlayListKey> {
     List<MusicPlaylist> findByPlayListUniqueAddress(String uniqueAddress);
     Page<MusicPlaylist> findByPlayListUniqueAddress(String uniqueAddress, Pageable pageable);
+    void deleteByMusicPlayListKey(MusicPlayListKey musicPlayListKey);
 }

@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,12 +45,22 @@ public class PlayListService {
         playlistRepository.save(playList);
     }
 
+    public void deletePlayList(Long playlistId){
+        playlistRepository.deleteById(playlistId);
+    }
+
     public void addMusicToPlaylist(Long musicId,String playListUniqueAddress){
         Music music=musicRepository.findById(musicId).orElseThrow(()->new RuntimeException("music not found"));
         PlayList playList=playlistRepository.findByUniqueAddress(playListUniqueAddress).orElseThrow(()->new RuntimeException("music not found"));
         MusicPlayListKey musicPlayListKey=new MusicPlayListKey(music.getMusicId(),playList.getPlayListId());
         MusicPlaylist musicPlaylist=new MusicPlaylist(musicPlayListKey,music,playList);
         musicPlaylistRepository.save(musicPlaylist);
+    }
+
+    @Transactional
+    public void deleteMusicFromPlaylist(Long musicId,Long playlistId){
+        MusicPlayListKey musicPlayListKey=new MusicPlayListKey(musicId,playlistId);
+        musicPlaylistRepository.deleteByMusicPlayListKey(musicPlayListKey);
     }
 
     public List<MusicPlaylist> getMusicOfPlaylist(String  uniqueAddress){
@@ -65,6 +76,10 @@ public class PlayListService {
     public Page getUserPlaylist(Long id,int page,int size){
         Pageable pageable=PageRequest.of(page, size);
         return playlistRepository.findByUserId(id,pageable);
+    }
+
+    public PlayList getPlaylistData(String address){
+        return  playlistRepository.findByUniqueAddress(address).orElseThrow(()->new RuntimeException("not found"));
     }
 
 

@@ -23,7 +23,6 @@ public class PlayList {
     private String uniqueAddress;
     @ManyToOne
     @JoinColumn(name="user_id")
-    @JsonIgnore
     @NonNull
     private User user;
 }

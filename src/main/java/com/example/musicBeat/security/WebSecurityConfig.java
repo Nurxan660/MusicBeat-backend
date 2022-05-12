@@ -49,12 +49,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/auth/**").permitAll().and()
                 .authorizeRequests().antMatchers("/music/**").permitAll().and()
-                .authorizeRequests().antMatchers("/playlist/get/music/all").permitAll()
+                .authorizeRequests().antMatchers("/playlist/get/music/all").permitAll().and()
+                .authorizeRequests().antMatchers("/playlist/get/musicByPagination").permitAll().and()
+                .authorizeRequests().antMatchers("/playlist/get/data").permitAll()
+
                 .anyRequest().authenticated();
                 http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

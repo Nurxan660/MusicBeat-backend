@@ -3,6 +3,7 @@ package com.example.musicBeat.controller;
 import com.example.musicBeat.dto.AddMusicToPlaylistReq;
 import com.example.musicBeat.dto.CreatePlaylistReq;
 import com.example.musicBeat.entity.MusicPlaylist;
+import com.example.musicBeat.entity.PlayList;
 import com.example.musicBeat.security.UserDetailsImpl;
 import com.example.musicBeat.service.PlayListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/playlist")
 public class PlayListController {
@@ -26,6 +27,12 @@ public class PlayListController {
         UserDetailsImpl userDetails= (UserDetailsImpl) authentication.getPrincipal();
         playListService.createPlayList(createPlaylistReq.getName(),userDetails.getId());
         return ResponseEntity.ok("Ваш плейлист был успешно создан!");
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity deletePlaylist(@RequestParam Long id){
+        playListService.deletePlayList(id);
+        return ResponseEntity.ok("Ваш плейлист был успешно удален!");
     }
 
     @PostMapping("/add/music")
@@ -51,6 +58,19 @@ public class PlayListController {
         UserDetailsImpl userDetails= (UserDetailsImpl) authentication.getPrincipal();
         Page res=playListService.getUserPlaylist(userDetails.getId(),page,size);
         return ResponseEntity.ok(res);
+    }
+
+    @GetMapping("/get/data")
+    public ResponseEntity getUserPlaylist(@RequestParam String address){
+        PlayList playList=playListService.getPlaylistData(address);
+        return ResponseEntity.ok(playList);
+    }
+
+
+    @DeleteMapping("/delete/music")
+    public ResponseEntity deleteMusicFromPlayList(@RequestParam Long musicId,@RequestParam Long playlistId){
+        playListService.deleteMusicFromPlaylist(musicId, playlistId);
+        return ResponseEntity.ok("Ваша музыка  была успешно удалена!");
     }
 
 

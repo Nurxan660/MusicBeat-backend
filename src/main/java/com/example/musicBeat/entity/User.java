@@ -1,6 +1,7 @@
 package com.example.musicBeat.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
     @Column(unique = true,nullable = false)
     @NonNull
@@ -28,14 +30,17 @@ public class User {
     private String email;
     @Column(nullable = false)
     @NonNull
+    @JsonIgnore
     private String password;
     private Date date;
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<EmailVerificationToken> tokens;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_roles",
     joinColumns = @JoinColumn(name="user_id"),
     inverseJoinColumns = @JoinColumn(name="role_id"))
+    @JsonIgnore
     private Set<Role> roles;
 
 }
