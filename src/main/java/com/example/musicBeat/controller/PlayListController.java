@@ -6,6 +6,7 @@ import com.example.musicBeat.entity.MusicPlaylist;
 import com.example.musicBeat.security.UserDetailsImpl;
 import com.example.musicBeat.service.PlayListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,10 +35,17 @@ public class PlayListController {
     }
 
     @GetMapping("/get/music/all")
-    public ResponseEntity addMusicToPlaylist(@RequestParam String uniqueAddress){
+    public ResponseEntity getMusic(@RequestParam String uniqueAddress){
         List<MusicPlaylist> res=playListService.getMusicOfPlaylist(uniqueAddress);
         return ResponseEntity.ok(res);
     }
+
+    @GetMapping("/get/musicByPagination")
+    public ResponseEntity getMusicByPagination(@RequestParam String uniqueAddress,@RequestParam int page,@RequestParam int size){
+        Page res=playListService.getMusicOfPlaylistByPagination(uniqueAddress, page, size);
+        return ResponseEntity.ok(res);
+    }
+
 
 
 
