@@ -64,7 +64,7 @@ public class PlayListService {
     }
 
     public List<PlayList> getPlaylists(String email){
-        return playlistRepository.findByEmail(email);
+        return playlistRepository.findByUserEmail(email);
     }
 
     public List<MusicPlaylist> getMusicOfPlaylist(String  uniqueAddress){
