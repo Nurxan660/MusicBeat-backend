@@ -56,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/music/**").permitAll().and()
                 .authorizeRequests().antMatchers("/playlist/get/music/all").permitAll().and()
                 .authorizeRequests().antMatchers("/playlist/get/musicByPagination").permitAll().and()
+                .authorizeRequests().antMatchers("/playlist/get").permitAll().and()
                 .authorizeRequests().antMatchers("/playlist/get/data").permitAll()
 
                 .anyRequest().authenticated();

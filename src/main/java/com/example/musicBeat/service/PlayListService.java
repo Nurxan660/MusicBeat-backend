@@ -63,6 +63,10 @@ public class PlayListService {
         musicPlaylistRepository.deleteByMusicPlayListKey(musicPlayListKey);
     }
 
+    public List<PlayList> getPlaylists(String email){
+        return playlistRepository.findByEmail(email);
+    }
+
     public List<MusicPlaylist> getMusicOfPlaylist(String  uniqueAddress){
 
         return musicPlaylistRepository.findByPlayListUniqueAddress(uniqueAddress);

@@ -47,6 +47,11 @@ public class PlayListController {
         return ResponseEntity.ok(res);
     }
 
+    @GetMapping("/get")
+    public ResponseEntity getPlaylists(@RequestParam String email){
+        return ResponseEntity.ok(playListService.getPlaylists(email));
+    }
+
     @GetMapping("/get/musicByPagination")
     public ResponseEntity getMusicByPagination(@RequestParam String uniqueAddress,@RequestParam int page,@RequestParam int size){
         Page res=playListService.getMusicOfPlaylistByPagination(uniqueAddress, page, size);
@@ -65,6 +70,8 @@ public class PlayListController {
         PlayList playList=playListService.getPlaylistData(address);
         return ResponseEntity.ok(playList);
     }
+
+
 
 
     @DeleteMapping("/delete/music")

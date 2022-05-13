@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface PlaylistRepository extends JpaRepository<PlayList,Long> {
     Optional<PlayList> findByUniqueAddress(String uniqueAddress);
     Page<PlayList> findByUserId(Long id, Pageable pageable);
+    List<PlayList> findByEmail(String email);
 
 }
