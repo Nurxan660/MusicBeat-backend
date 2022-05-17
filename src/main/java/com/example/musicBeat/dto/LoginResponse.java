@@ -18,6 +18,7 @@ public class LoginResponse {
     private String nickname;
     private Long id;
     private String email;
+    private String message;
     private List<String> roles;
 
 

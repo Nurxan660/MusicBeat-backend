@@ -29,11 +29,7 @@ public class PlayListController {
         return ResponseEntity.ok("Ваш плейлист был успешно создан!");
     }
 
-    @PostMapping("/create/forRamis")
-    public ResponseEntity createPlaylist(@RequestBody CreatePlaylistReq createPlaylistReq, @RequestParam Long id){
-        playListService.createPlayList(createPlaylistReq.getName(),id);
-        return ResponseEntity.ok("Ваш плейлист был успешно создан!");
-    }
+
 
     @DeleteMapping("/delete")
     public ResponseEntity deletePlaylist(@RequestParam Long id){
