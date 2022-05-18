@@ -3,6 +3,7 @@ package com.example.musicBeat.service;
 
 import com.example.musicBeat.dto.TokenRefreshResponse;
 import com.example.musicBeat.entity.RefreshToken;
+import com.example.musicBeat.entity.User;
 import com.example.musicBeat.exception.TokenExpiredException;
 import com.example.musicBeat.exception.TokenNotFoundException;
 import com.example.musicBeat.repository.RefreshTokenRepository;
@@ -25,11 +26,19 @@ public class RefreshTokenService {
     private JwtProvider jwtProvider;
 
     public RefreshToken createRefreshToken(String email){
-        RefreshToken refreshToken=new RefreshToken();
-        refreshToken.setUser(userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("email not found")));
-        refreshToken.setExpiredDate(LocalDateTime.now().plusHours(8));
-        refreshToken.setToken(generateRefreshToken());
+        User user=userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("email not found"));
+        RefreshToken refreshToken=refreshTokenRepository.findByUserId(user.getId()).orElse(new RefreshToken());
+        if(refreshToken.getToken()==null){
+            refreshToken.setUser(user);
+            refreshToken.setExpiredDate(LocalDateTime.now().plusHours(8));
+            refreshToken.setToken(generateRefreshToken());
+        }
+        else{
+            refreshToken.setToken(generateRefreshToken());
+
+        }
         refreshTokenRepository.save(refreshToken);
+
         return refreshToken;
     }
     public String generateRefreshToken(){
