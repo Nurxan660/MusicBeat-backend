@@ -60,7 +60,9 @@ public class AuthServiceTest {
     private AuthService authService;
     @Test
     public void registration(){
-        RegistrationRequest registrationRequest =new RegistrationRequest("asfasf","ASfasf","Asfasf", Set.of("user"));
+        Set<String> set=new HashSet<>();
+        set.add("user");
+        RegistrationRequest registrationRequest =new RegistrationRequest("asfasf","ASfasf","Asfasf", set);
         RegistrationResponse res=new RegistrationResponse("User sucessfully registered",registrationRequest.getEmail(),registrationRequest.getNickname());
         when(roleRepository.findByRole(ERole.ROLE_USER)).thenReturn(Optional.of(new Role(1L, ERole.ROLE_USER)));
         when(roleRepository.findByRole(ERole.ROLE_ADMIN)).thenReturn(Optional.of(new Role(2L, ERole.ROLE_ADMIN)));
@@ -73,12 +75,16 @@ public class AuthServiceTest {
 
     @Test
     public void login(){
+        List<SimpleGrantedAuthority> list=new ArrayList<>();
+        list.add(new SimpleGrantedAuthority("ROLE_USER"));
+        List<String> role=new ArrayList<>();
+        role.add("ROLE_USER");
         final String access="safasfasgereehrthrthrt";
         final String refresh="askmldfqwofjqmlwdqwklkqwmd";
         final String message="Successfully sign in";
         LoginRequest req=new LoginRequest("nur@mail.ru","asf;lasfas");
             Authentication authentication=mock(UsernamePasswordAuthenticationToken.class);
-        UserDetailsImpl userDetails=new UserDetailsImpl(1L,"asfasf",req.getEmail(),req.getPassword(),List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        UserDetailsImpl userDetails=new UserDetailsImpl(1L,"asfasf",req.getEmail(),req.getPassword(),list);
             when(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getEmail(),req.getPassword())))
                     .thenReturn(new UsernamePasswordAuthenticationToken(userDetails,null));
             when(jwtProvider.generateToken(userDetails.getEmail())).thenReturn(access);
@@ -86,7 +92,7 @@ public class AuthServiceTest {
 
         LoginResponse res=authService.signIn(req);
 
-        assertThat(new LoginResponse(access,refresh,userDetails.getUsername(),userDetails.getId(),userDetails.getEmail(),message,List.of("ROLE_USER")))
+        assertThat(new LoginResponse(access,refresh,userDetails.getUsername(),userDetails.getId(),userDetails.getEmail(),message,role))
                 .isEqualToComparingFieldByField(res);
     }
 
@@ -100,9 +106,11 @@ public class AuthServiceTest {
 
     @Test
     public void restorePassword(){
+        Set<Role> set=new HashSet<>();
+        set.add(new Role(1L,ERole.ROLE_USER));
         final String email="nurxan@mail.ru";
         final String token="Asfasfasf";
-        User user=new User(1L,"nurxan",email,"Asfasfasf",new Date(),null,Set.of(new Role(1L,ERole.ROLE_USER)));
+        User user=new User(1L,"nurxan",email,"Asfasfasf",new Date(),null,set);
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
         when(emailVerificationTokenService.saveToken(user,token)).thenReturn(token);
 

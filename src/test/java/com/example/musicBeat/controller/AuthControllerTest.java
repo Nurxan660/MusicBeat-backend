@@ -17,6 +17,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,7 +49,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @Test
     public void signup() throws Exception {
-        RegistrationRequest req=new RegistrationRequest("blabla","blabla@mail.ru","12345678", Set.of("user"));
+         Set<String> set=new HashSet<>();
+         set.add("ROLE_USER");
+        RegistrationRequest req=new RegistrationRequest("blabla","blabla@mail.ru","12345678",set);
         RegistrationResponse res=new RegistrationResponse("User sucessfully registered",req.getEmail(),req.getNickname());
         when(authService.registration(any(RegistrationRequest.class))).thenReturn(res);
 
@@ -62,8 +66,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @Test
     public void signin() throws Exception {
+        List<String> list=new ArrayList<>();
+        list.add("ROLE_USER");
         LoginRequest req=new LoginRequest("nurxan@mail.ru","12345678");
-        LoginResponse res=new LoginResponse("safasfasfasf","safasfasfasf","nurxan",1L ,req.getEmail(),"signin",List.of("user"));
+        LoginResponse res=new LoginResponse("safasfasfasf","safasfasfasf","nurxan",1L ,req.getEmail(),"signin",list);
         when(authService.signIn(any(LoginRequest.class))).thenReturn(res);
 
         mockMvc.perform(post("/auth/signin").contentType(MediaType.APPLICATION_JSON)
