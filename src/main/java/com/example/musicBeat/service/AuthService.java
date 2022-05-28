@@ -94,12 +94,11 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userPrincipals= (UserDetailsImpl) authentication.getPrincipal();
         String token=jwtProvider.generateToken(userPrincipals.getEmail());
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
+        List<String> roles = userPrincipals.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        RefreshToken refreshToken=refreshTokenService.createRefreshToken(userDetails.getEmail());
-        return new LoginResponse(token,refreshToken.getToken(),userDetails.getUsername(),userDetails.getId(),userDetails.getEmail(),"Successfully sign in",roles);
+        String refreshToken=refreshTokenService.createRefreshToken(userPrincipals.getEmail());
+        return new LoginResponse(token,refreshToken,userPrincipals.getUsername(),userPrincipals.getId(),userPrincipals.getEmail(),"Successfully sign in",roles);
     }
 
     @Transactional
@@ -109,8 +108,8 @@ public class AuthService {
 
     public void restorePassword(String email){
         User user=userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("email invalid"));
-        EmailVerificationToken token =emailVerificationTokenService.saveToken(user,emailVerificationTokenService.createToken());
-        mailService.send(email,"Please follow to https://music-beat-front.herokuapp.com/restore/"+token.getToken()+" to change the password","Password restore");
+        String token =emailVerificationTokenService.saveToken(user,emailVerificationTokenService.createToken());
+        mailService.send(email,"Please follow to https://music-beat-front.herokuapp.com/restore/"+token+" to change the password","Password restore");
     }
 
 

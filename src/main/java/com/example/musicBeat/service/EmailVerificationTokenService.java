@@ -30,12 +30,13 @@ public class EmailVerificationTokenService {
         return UUID.randomUUID().toString();
     }
 
-    public EmailVerificationToken saveToken(User user, String token){
+    public String saveToken(User user, String token){
         EmailVerificationToken emailVerificationToken=new EmailVerificationToken(token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
                 user);
-        return  emailVerificationTokenRepository.save(emailVerificationToken);
+        EmailVerificationToken res=emailVerificationTokenRepository.save(emailVerificationToken);
+        return  res.getToken();
 
 
     }

@@ -25,7 +25,7 @@ public class RefreshTokenService {
     @Autowired
     private JwtProvider jwtProvider;
 
-    public RefreshToken createRefreshToken(String email){
+    public String createRefreshToken(String email){
         User user=userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("email not found"));
         RefreshToken refreshToken=refreshTokenRepository.findByUserId(user.getId()).orElse(new RefreshToken());
         if(refreshToken.getToken()==null){
@@ -39,7 +39,7 @@ public class RefreshTokenService {
         }
         refreshTokenRepository.save(refreshToken);
 
-        return refreshToken;
+        return refreshToken.getToken();
     }
     public String generateRefreshToken(){
         return UUID.randomUUID().toString();
